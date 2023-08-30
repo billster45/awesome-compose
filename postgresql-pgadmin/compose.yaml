@@ -1,3 +1,4 @@
+version: '3'
 services:
   postgres:
     container_name: postgres
@@ -5,10 +6,12 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PW}
-      - POSTGRES_DB=${POSTGRES_DB} #optional (specify default database instead of $POSTGRES_DB)
+      - POSTGRES_DB=${POSTGRES_DB}  # optional (specify default database instead of $POSTGRES_DB)
     ports:
       - "5432:5432"
     restart: always
+    networks:
+      - simple_postgres  # Specify the network name here
 
   pgadmin:
     container_name: pgadmin
@@ -19,3 +22,9 @@ services:
     ports:
       - "5050:80"
     restart: always
+    networks:
+      - simple_postgres  # Specify the network name here
+
+networks:
+  simple_postgres:  # Define the network name here
+    driver: bridge
